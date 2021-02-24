@@ -3,4 +3,20 @@
 <input type="number" #joca (keyup.enter)="clickMe(joca.value)" />
 <h1 (mouseover)="clickMe('mouse over call')">Mouse Event</h1>
 <h4>{{ message }}</h4>
+<h4>{{ name | uppercase }}</h4>
+<h4>{{ messages | slice: 2:8 }}</h4>
+
+<h3>{{ 5.678 | number: "1.2-3" }}</h3>
+<h3>{{ 5.786 | number: "3.4-5" }}</h3>
+<h3>{{ 5.789 | number: "3.1-2" }}</h3>
+<h3>{{ 0.24 | percent }}</h3>
+<h3>{{ 89 | currency }}</h3>
+<h3>{{ 89 | currency: "GBP" }}</h3>
+<h3>{{ 89 | currency: "USD" }}</h3>
+<h3>{{ 89 | currency: "USD":"code" }}</h3>
+<h3>{{ date }}</h3>
+<h3>{{ date | date: "short" }}</h3>
+<h3>{{ date | date: "shortDate" }}</h3>
+<h3>{{ date | date: "shortTime" }}</h3>
+<h3>{{ date | date: "longTime" }}</h3>
 <app-users (childEvent)="message = $event" [joca]="data"></app-users>

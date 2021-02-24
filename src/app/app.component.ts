@@ -8,7 +8,9 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'practice';
   public name = 'Titans';
+  public messages = 'It is the big show';
   public message = '';
+  public date = new Date();
   clickMe(evt) {
     console.log(evt);
   }
