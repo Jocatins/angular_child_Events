@@ -1,0 +1,21 @@
+<p *ngFor="let employee of employees">
+  <li>{{ employee.name }}</li>
+</p>
+<div class="container">
+  <div class="row custom-wrapper">
+    <div class="col-md-12">
+      <form [formGroup]="validatorForm">
+        <div class="mb-3">
+          <label>Tell us your age</label>
+          <input type="number" class="form-control" formControlName="name" />
+          <div class="invalid-feedback" *ngIf="name.errors?.age">
+            <sup>*</sup>Age should not be less than 18
+          </div>
+        </div>
+        <button type="submit" class="btn btn-danger btn-lg btn-block">
+          Submit
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
