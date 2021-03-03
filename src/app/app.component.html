@@ -4,4 +4,11 @@
 <h1 (mouseover)="clickMe('mouse over call')">Mouse Event</h1>
 <h4>{{ message }}</h4>
 <app-users (childEvent)="message = $event" [joca]="data"></app-users>
-<app-joca-list></app-joca-list>
+
+<nav>
+  <a routerLink="/department" routerLinkActive="active">Departments</a>
+  <a routerLink="/employees">Employees</a>
+</nav>
+<app-employee-detail></app-employee-detail>
+<app-employee-list></app-employee-list>
+<router-outlet></router-outlet>

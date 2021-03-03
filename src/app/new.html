@@ -1,0 +1,136 @@
+<h5 class="sub-header mt-4 mb-4">Supporting Document(s)</h5>
+<div class="row">
+    <div class="col-12">
+        <blockquote class="blockquote">
+            <p class="mb-0">
+
+            </p>
+        </blockquote>
+        <!-- <h6 class="text-right">{{message}}</h6>
+        <h1 class="text-capitalize text-center" jhiTranslate="supporting-docs.title">Title</h1>
+        <h5 class="text-center" jhiTranslate="supporting-docs.subtitle">Subtitle</h5> -->
+
+        <form name="editForm" role="form" novalidate [formGroup]="editForm">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label class="form-control-label">Mandatory Supporting Document(s)</label>
+                    <select class="form-control" id="field_documentType" (change)="onChange($event)" name="documentType" formControlName="documentType">
+                        <!-- <option [ngValue]="null"></option> -->
+                        <option [ngValue]="dOption.id === editForm.get('documentType').value ? editForm.get('documentType').value : dOption.id"
+                            *ngFor="let dOption of madatorySupportingDocuments; trackBy: trackStateById">
+                            {{dOption.label}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4" *ngIf="!found">
+                    <div class="input-group" [hidden]="!editForm.get(['documentType']).value">
+                        <label for="fileUploader"></label>
+                        <input (change)="onFileSelected($event)" type="file" id="fileUploader" #fileUploader>
+                    </div>
+                    <div *ngIf="fileSize">{{fileSize}}</div>
+                </div>
+            </div>
+            <div *ngIf="found">Item already added...</div>
+        </form>
+        <div class="table-responsive" *ngIf="supportingDocuments?.length > 0">
+            <table class="table table-striped table-sm" aria-describedby="page-heading">
+                <thead>
+                    <tr>
+                        <th scope="col">Document Name</span></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let supportingDocument of supportingDocuments ;trackBy: trackId">
+                        <td>{{supportingDocument.documentType.label}} - {{supportingDocument.name}} </td>
+                        <td class="text-right">
+                            <div class="btn-group">
+                                <div *ngIf="supportingDocument.content === undefined || supportingDocument.content === '' || supportingDocument.content === null   else canDownload">
+                                </div>
+                            </div>
+                            <ng-template #canDownload>
+                                <button type="submit" (click)="getFile(supportingDocument.id, supportingDocument.content, supportingDocument.name  )" class="btn btn-outline-info btn-sm">
+                                    <fa-icon [icon]="'eye'"></fa-icon>
+                                    <span class="d-none d-md-inline">Download</span>
+                                </button>
+                            </ng-template>
+                            <button type="submit" (click)="deleteDoc(supportingDocument, batch.id)" class="btn btn-outline-danger btn-sm">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <form name="editFormOthers" role="form" novalidate (ngSubmit)="saveOthers()" [formGroup]="editFormOthers">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label class="form-control-label">Other Supporting Document(s)</label>
+                    <select class="form-control" id="field_documentType" (change)="onChangeOthers($event)" name="documentType" formControlName="documentType">
+                        <!-- <option [ngValue]="null"></option> -->
+                        <option [ngValue]="dOption.id === editFormOthers.get('documentType').value ? editFormOthers.get('documentType').value : dOption.id"
+                            *ngFor="let dOption of otherSupportingDocuments; trackBy: trackStateById">
+                            {{dOption.label}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4" *ngIf="!foundOther">
+                    <div class="input-group" [hidden]="!editFormOthers.get(['documentType']).value">
+                        <label for="fileUploaderOthers"></label>
+                        <input (change)="onFileSelectedOthers($event)" type="file" id="fileUploaderOthers"  #fileUploaderOthers>
+                    </div>
+                </div>
+                <div *ngIf="fileSizeOthers">{{fileSizeOthers}}</div>
+            </div>
+            <div *ngIf="foundOther">Item already added...</div>
+        </form>
+        <div>
+            <div class="table-responsive" *ngIf="supportingDocumentsOthers?.length > 0">
+                <table class="table table-striped" aria-describedby="page-heading">
+                    <thead>
+                        <tr>
+                            <th scope="col">Document Name</span></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let supportingDocument of supportingDocumentsOthers ;trackBy: trackId">
+                            <td>{{supportingDocument.documentType.label}} - {{supportingDocument.name}} </td>
+                            <td class="text-right">
+                                <div class="btn-group">
+                                    <div *ngIf="supportingDocument.content === undefined || supportingDocument.content === '' || supportingDocument.content === null   else canDownload">
+                                    </div>
+                                </div>
+                                <ng-template #canDownload>
+                                    <button type="submit" (click)="getFile(supportingDocument.id, supportingDocument.content, supportingDocument.name  )" class="btn btn-outline-info btn-sm">
+                                        <fa-icon [icon]="'eye'"></fa-icon>
+                                        <span class="d-none d-md-inline">Download</span>
+                                    </button>
+                                </ng-template>
+                                <button type="submit" (click)="deleteDoc(supportingDocument)" class="btn btn-outline-danger btn-sm">
+                                    <fa-icon [icon]="'times'"></fa-icon>
+                                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="alert alert-warning" *ngIf="supportingDocuments?.length === 0">
+            <span jhiTranslate="egisexternalApp.supportingDocument.home.notFound">No supportingDocuments found</span>
+        </div>
+        <button type="submit" id="jh-create-entity" class="btn btn-outline-secondary jh-create-entity create-address" (click)="goParcel(batchId)">
+            <fa-icon [icon]="'chevron-left'"></fa-icon>
+            <span class="hidden-sm-down"> Back</span>
+        </button>
+        <button type="submit" id="jh-create-entity" [disabled]="!allMandatoryDocumentAdded()" class="btn btn-outline-secondary jh-create-entity create-address" (click)="goToSummary( batch.id )">
+            <span class="hidden-sm-down"> Continue</span>
+            <fa-icon [icon]="'chevron-right'"></fa-icon>
+        </button>
+    </div>
+    <div *ngIf="!allMandatoryDocumentAdded()">
+        You need to provide all the mandory supporting documents before you can proceed.
+    </div>
+</div>
